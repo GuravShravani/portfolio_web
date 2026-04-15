@@ -1,0 +1,1059 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Shravani Gurav | Fullstack Developer | Portfolio</title>
+  <!-- Google Fonts + Font Awesome -->
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <!-- GSAP for advanced animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Space Grotesk', sans-serif;
+      background: #0a0a0f;
+      color: #ffffff;
+      overflow-x: hidden;
+      cursor: default;
+    }
+
+    /* Canvas 3D background */
+    #canvas-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    /* Main content overlay */
+    .content {
+      position: relative;
+      z-index: 10;
+    }
+
+    /* Glassmorphic Navbar */
+    .navbar {
+      position: fixed;
+      top: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 85%;
+      max-width: 1200px;
+      background: rgba(10, 10, 20, 0.7);
+      backdrop-filter: blur(15px);
+      border-radius: 60px;
+      padding: 0.8rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 100;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 700;
+      background: linear-gradient(135deg, #a855f7, #3b82f6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      letter-spacing: -1px;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 2rem;
+    }
+
+    .nav-links a {
+      text-decoration: none;
+      color: #e2e8f0;
+      font-weight: 500;
+      transition: 0.3s;
+      position: relative;
+    }
+
+    .nav-links a:hover {
+      color: #a855f7;
+    }
+
+    /* Section Styles */
+    section {
+      min-height: 100vh;
+      padding: 100px 5% 80px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+
+    .container {
+      max-width: 1300px;
+      width: 100%;
+      margin: 0 auto;
+    }
+
+    /* Hero Section */
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: center;
+      gap: 3rem;
+      text-align: center;
+    }
+
+    .hero-content {
+      flex: 1;
+      text-align: center;
+    }
+
+    .glow-text {
+      font-size: 4.5rem;
+      font-weight: 800;
+      line-height: 1.1;
+      background: linear-gradient(135deg, #ffffff, #a855f7, #3b82f6);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+      animation: shimmer 3s linear infinite;
+    }
+
+    @keyframes shimmer {
+      0% { background-position: 0% 50%; }
+      100% { background-position: 200% 50%; }
+    }
+
+    .hero-badge {
+      display: inline-block;
+      background: rgba(168, 85, 247, 0.2);
+      padding: 0.5rem 1.2rem;
+      border-radius: 40px;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+      border: 1px solid rgba(168, 85, 247, 0.5);
+    }
+
+    .stats {
+      display: flex;
+      gap: 2rem;
+      margin-top: 2rem;
+      justify-content: center;
+    }
+
+    .stat-item h3 {
+      font-size: 2rem;
+      color: #a855f7;
+    }
+
+    /* About Me Section */
+    .about-content {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3rem;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .about-text {
+      flex: 1.5;
+      background: rgba(20, 20, 35, 0.6);
+      backdrop-filter: blur(12px);
+      border-radius: 30px;
+      padding: 2rem;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      transition: all 0.3s;
+    }
+    
+    .about-text:hover {
+      transform: translateY(-5px);
+      border-color: #a855f7;
+      box-shadow: 0 15px 35px rgba(168,85,247,0.2);
+    }
+    
+    .about-text p {
+      line-height: 1.7;
+      margin-bottom: 1rem;
+      color: #cbd5e1;
+    }
+    
+    .about-highlight {
+      color: #a855f7;
+      font-weight: 600;
+    }
+    
+    .about-stats {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    
+    .about-stat-card {
+      background: rgba(20, 20, 35, 0.6);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 1.2rem;
+      text-align: center;
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      transition: all 0.3s;
+    }
+    
+    .about-stat-card:hover {
+      transform: translateX(10px);
+      border-color: #a855f7;
+    }
+    
+    .about-stat-card i {
+      font-size: 2rem;
+      color: #a855f7;
+      margin-bottom: 0.5rem;
+    }
+    
+    .about-stat-card h4 {
+      font-size: 1.8rem;
+      color: #a855f7;
+    }
+
+    /* Skills Grid */
+    .skills-grid-3d {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .skill-chip {
+      background: rgba(255, 255, 255, 0.05);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      padding: 0.8rem 1.5rem;
+      border-radius: 50px;
+      font-weight: 500;
+      transition: all 0.3s;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .skill-chip::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(168,85,247,0.3), transparent);
+      transition: left 0.5s;
+    }
+
+    .skill-chip:hover::before {
+      left: 100%;
+    }
+
+    .skill-chip:hover {
+      transform: translateY(-5px) scale(1.05);
+      background: rgba(168, 85, 247, 0.2);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+    }
+
+    /* Experience Timeline */
+    .timeline {
+      position: relative;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    .timeline-item {
+      background: rgba(20, 20, 35, 0.6);
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
+      padding: 1.8rem;
+      margin-bottom: 2rem;
+      border-left: 4px solid #a855f7;
+      transition: all 0.4s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .timeline-item:hover {
+      transform: translateX(15px) scale(1.02);
+      border-left-width: 6px;
+      box-shadow: 0 10px 30px rgba(168,85,247,0.2);
+    }
+
+    /* Project Cards */
+    .projects-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .project-card-3d {
+      background: rgba(15, 15, 25, 0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 24px;
+      padding: 1.8rem;
+      transition: all 0.5s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card-3d:hover {
+      transform: translateY(-15px) rotateX(5deg) scale(1.02);
+      box-shadow: 0 25px 40px rgba(168, 85, 247, 0.3);
+      border-color: #a855f7;
+    }
+
+    /* Resume Section */
+    .resume-container {
+      background: rgba(20, 20, 40, 0.85);
+      backdrop-filter: blur(15px);
+      border-radius: 32px;
+      padding: 3rem;
+      border: 1px solid rgba(168, 85, 247, 0.4);
+      width: 100%;
+      max-width: 900px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    
+    .resume-container i {
+      font-size: 4rem;
+      color: #a855f7;
+      margin-bottom: 1rem;
+    }
+    
+    .resume-container h3 {
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+    
+    .resume-container p {
+      color: #cbd5e1;
+      margin-bottom: 2rem;
+    }
+    
+    .resume-buttons {
+      display: flex;
+      gap: 1.5rem;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+    
+    .btn-resume {
+      background: linear-gradient(45deg, #a855f7, #3b82f6);
+      border: none;
+      padding: 0.8rem 2rem;
+      border-radius: 50px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    
+    .btn-resume:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(168, 85, 247, 0.6);
+    }
+    
+    .btn-outline-resume {
+      background: transparent;
+      border: 2px solid #a855f7;
+      padding: 0.8rem 2rem;
+      border-radius: 50px;
+      font-weight: bold;
+      color: #a855f7;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.8rem;
+    }
+    
+    .btn-outline-resume:hover {
+      background: rgba(168, 85, 247, 0.2);
+      transform: scale(1.05);
+      box-shadow: 0 0 20px rgba(168, 85, 247, 0.4);
+    }
+
+    /* Contact Section */
+    .contact-wrapper {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 3rem;
+      justify-content: center;
+      width: 100%;
+    }
+    
+    .contact-info-card {
+      flex: 1;
+      min-width: 280px;
+      background: rgba(20, 20, 35, 0.6);
+      backdrop-filter: blur(12px);
+      border-radius: 30px;
+      padding: 2rem;
+      text-align: center;
+      transition: all 0.3s;
+    }
+    
+    .contact-info-card:hover {
+      transform: translateY(-10px);
+      background: rgba(168, 85, 247, 0.15);
+    }
+    
+    .contact-link {
+      display: inline-block;
+      text-decoration: none;
+      color: #ffffff;
+      transition: all 0.3s;
+      cursor: pointer;
+      word-break: break-all;
+    }
+    
+    .contact-link:hover {
+      color: #a855f7;
+      transform: scale(1.05);
+    }
+    
+    .contact-info-card i {
+      font-size: 2.5rem;
+      color: #a855f7;
+      margin-bottom: 0.5rem;
+      display: inline-block;
+    }
+    
+    .contact-info-card h3 {
+      margin: 0.5rem 0;
+    }
+    
+    .contact-form-card {
+      flex: 1.5;
+      min-width: 320px;
+      background: rgba(20, 20, 35, 0.6);
+      backdrop-filter: blur(12px);
+      border-radius: 30px;
+      padding: 2rem;
+      transition: all 0.3s;
+    }
+    
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+    
+    .form-group input,
+    .form-group textarea {
+      width: 100%;
+      padding: 1rem;
+      background: rgba(255, 255, 255, 0.08);
+      border: 1px solid rgba(168, 85, 247, 0.3);
+      border-radius: 16px;
+      color: white;
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1rem;
+      transition: all 0.3s;
+    }
+    
+    .form-group input:focus,
+    .form-group textarea:focus {
+      outline: none;
+      border-color: #a855f7;
+      box-shadow: 0 0 15px rgba(168,85,247,0.3);
+      background: rgba(255, 255, 255, 0.12);
+    }
+    
+    .form-group textarea {
+      resize: vertical;
+      min-height: 120px;
+    }
+    
+    .submit-btn {
+      background: linear-gradient(45deg, #a855f7, #3b82f6);
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1rem;
+      width: 100%;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .submit-btn:hover {
+      transform: scale(1.02);
+      box-shadow: 0 0 25px rgba(168, 85, 247, 0.6);
+    }
+    
+    .form-message {
+      margin-top: 1rem;
+      padding: 0.8rem;
+      border-radius: 12px;
+      text-align: center;
+      display: none;
+    }
+    
+    .form-message.success {
+      display: block;
+      background: rgba(34, 197, 94, 0.2);
+      border: 1px solid #22c55e;
+      color: #22c55e;
+    }
+    
+    .form-message.error {
+      display: block;
+      background: rgba(239, 68, 68, 0.2);
+      border: 1px solid #ef4444;
+      color: #ef4444;
+    }
+
+    .btn-primary {
+      background: linear-gradient(45deg, #a855f7, #3b82f6);
+      border: none;
+      padding: 1rem 2rem;
+      border-radius: 50px;
+      font-weight: bold;
+      color: white;
+      cursor: pointer;
+      transition: all 0.3s;
+      font-size: 1rem;
+    }
+
+    .btn-primary:hover {
+      transform: scale(1.05);
+      box-shadow: 0 0 25px rgba(168, 85, 247, 0.6);
+    }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      border-top: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .section-title {
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 3rem;
+      width: 100%;
+    }
+
+    .section-title span {
+      background: linear-gradient(135deg, #a855f7, #3b82f6);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    @media (max-width: 768px) {
+      .glow-text { font-size: 2.5rem; }
+      .navbar { width: 95%; padding: 0.5rem 1rem; }
+      .nav-links { gap: 1rem; font-size: 0.8rem; }
+      .section-title { font-size: 2rem; }
+      .about-content { flex-direction: column; }
+    }
+  </style>
+</head>
+<body>
+
+<div id="canvas-container"></div>
+
+<div class="content">
+  <div class="navbar">
+    <div class="logo"><i class="fas fa-cube"></i> SG</div>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#about">About</a>
+      <a href="#experience">Flow</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Work</a>
+      <a href="#resume">Resume</a>
+      <a href="#contact">Connect</a>
+    </div>
+  </div>
+
+  <!-- Hero Section -->
+  <section id="home">
+    <div class="container hero">
+      <div class="hero-content">
+        <span class="hero-badge"><i class="fas fa-rocket"></i> Innovative Magic</span>
+        <h1 class="glow-text">Shravani Gurav<br>Fullstack Developer</h1>
+        <p style="font-size: 1.2rem; margin: 1.5rem 0; color: #cbd5e1;">Crafting immersive web experiences with code & creativity. Full-Stack & 3D Visualizer.</p>
+        <button class="btn-primary" id="exploreBtn" style="margin-top: 2rem;"><i class="fas fa-magic"></i> Explore My Universe</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Me Section -->
+  <section id="about">
+    <div class="container">
+      <h2 class="section-title"><i class="fas fa-user-astronaut"></i> <span>About Me</span></h2>
+      <div class="about-content">
+        <div class="about-text">
+          <p>👋 <span class="about-highlight">Hello! I'm Shravani Gurav</span>, a passionate Full-Stack Developer with a keen eye for creating immersive digital experiences. I specialize in building modern web applications that blend cutting-edge technology with elegant design.</p>
+          <p>💡 With <span class="about-highlight">educational and live project working experience</span> in software development, I've worked on diverse projects ranging from 3D interactive websites to AI-powered applications. My journey in tech started with a curiosity for how things work, which evolved into a deep passion for creating solutions that make a difference.</p>
+          <p>🚀 I'm particularly excited about <span class="about-highlight">3D web experiences, AI integration, and building scalable full-stack applications</span>. I believe that the best technology is invisible — it should feel natural and intuitive to users while solving real problems behind the scenes.</p>
+          <p>🎯 My goal is to continue growing as a developer, contributing to open-source projects, and building applications that leave a positive impact on users worldwide. When I'm not coding, you'll find me exploring new technologies, contributing to tech communities, or enjoying a good cup of coffee while brainstorming new ideas.</p>
+        </div>
+        <div class="about-stats">
+          <div class="about-stat-card">
+            <i class="fas fa-users"></i>
+            <h4>24/7</h4>
+            <p>Innovation</p>
+          </div>
+          <div class="about-stat-card">
+            <i class="fas fa-certificate"></i>
+            <h4>8+</h4>
+            <p>Certifications</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Work Experience Section -->
+  <section id="experience">
+    <div class="container">
+      <h2 class="section-title"><span>⚡</span> Experience Flow</h2>
+      <div class="timeline">
+        <div class="timeline-item">
+          <h3><i class="fas fa-code"></i> Jr.Full Stack Developer Intern</h3>
+          <p style="color: #a855f7;">SPCL Infotech PVT.LTD | Pune · 12/2024 – Present</p>
+          <p>Leading live full stack project development, building reactive design systems with Three.js & React Three Fiber. Optimized performance by 70%.</p>
+          <div style="display: flex; gap: 0.5rem; margin-top: 1rem;"><span class="skill-chip" style="font-size: 0.8rem;">React</span><span class="skill-chip" style="font-size: 0.8rem;">WebGL</span><span class="skill-chip" style="font-size: 0.8rem;">GSAP</span></div>
+        </div>
+        <div class="timeline-item">
+          <h3><i class="fas fa-globe"></i> Android Developer</h3>
+          <p style="color: #a855f7;">Stormsoft Technology PVT.LTD | Ichalkaranji · 06/2024 – 07/2024</p>
+          <p>Developed real-time data applications, handling user interactions, and managed database connection using Android SDK and SQLite.</p>
+          <div style="display: flex; gap: 0.5rem; margin-top: 1rem;"><span class="skill-chip" style="font-size: 0.8rem;">Android</span><span class="skill-chip" style="font-size: 0.8rem;">SQLite</span><span class="skill-chip" style="font-size: 0.8rem;">React Native</span></div>
+        </div>
+        <div class="timeline-item">
+          <h3><i class="fas fa-paintbrush"></i> Project Trainee</h3>
+          <p style="color: #a855f7;">ECS Software Technology PVT.LTD | Karad · 07/2022 – 08/2022</p>
+          <p>Built website using HTML, CSS, JavaScript, React and Node.js. Gained hands-on experience in full-stack development.</p>
+          <div style="display: flex; gap: 0.5rem; margin-top: 1rem;"><span class="skill-chip" style="font-size: 0.8rem;">HTML/CSS</span><span class="skill-chip" style="font-size: 0.8rem;">JavaScript</span><span class="skill-chip" style="font-size: 0.8rem;">React</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Skills Section -->
+  <section id="skills">
+    <div class="container">
+      <h2 class="section-title"><i class="fas fa-cogs"></i> <span>Core Arsenal</span></h2>
+      <div class="skills-grid-3d" id="techSkills">
+        <span class="skill-chip">Java</span><span class="skill-chip">Python</span><span class="skill-chip">CSS</span>
+        <span class="skill-chip">Node.js</span><span class="skill-chip">React</span><span class="skill-chip">Tailwind</span>
+        <span class="skill-chip">MongoDB / PostgreSQL</span><span class="skill-chip">HTML</span><span class="skill-chip">JavaScript</span>
+        <span class="skill-chip">Three.js</span><span class="skill-chip">TypeScript</span><span class="skill-chip">Git</span>
+      </div>
+      <h3 style="text-align: center; margin: 3rem 0 1rem; color: #a855f7;">✨ Soft Energies</h3>
+      <div class="skills-grid-3d" id="softSkills">
+        <span class="skill-chip">🌀 Creative Leadership</span><span class="skill-chip">🧩 Problem Solving</span><span class="skill-chip">🗣️ Communication</span>
+        <span class="skill-chip">🤝 Cross-Functional</span><span class="skill-chip">📊 Strategic Vision</span><span class="skill-chip">⏳ Time Wizardry</span>
+      </div>
+    </div>
+  </section>
+
+  <!-- Projects Section -->
+  <section id="projects">
+    <div class="container">
+      <h2 class="section-title"><i class="fas fa-cube"></i> <span>Dimensional Work</span></h2>
+      <div class="projects-grid">
+        <div class="project-card-3d">
+          <i class="fas fa-chart-line" style="font-size: 2.5rem; color: #a855f7;"></i>
+          <h3 style="margin: 1rem 0;">BillMe Online Payment Web</h3>
+          <p>Real time company live project for creating instant invoicing and digital wallet payment solutions.</p>
+          <div class="skills-grid-3d" style="margin-top: 1rem;"><span class="skill-chip">React.js</span><span class="skill-chip">Java</span></div>
+        </div>
+        <div class="project-card-3d">
+          <i class="fas fa-microchip" style="font-size: 2.5rem; color: #a855f7;"></i>
+          <h3 style="margin: 1rem 0;">AI Driven Body Disease Diagnosis</h3>
+          <p>Developed an AI-driven system for early detection of body diseases using machine learning and IoT sensors.</p>
+          <div class="skills-grid-3d" style="margin-top: 1rem;"><span class="skill-chip">Python</span><span class="skill-chip">ML/IOT</span></div>
+        </div>
+        <div class="project-card-3d">
+          <i class="fas fa-brain" style="font-size: 2.5rem; color: #a855f7;"></i>
+          <h3 style="margin: 1rem 0;">The Brand Hub</h3>
+          <p>A dynamic sponsored website for showcasing brand products and services with 3D interactive elements.</p>
+          <div class="skills-grid-3d" style="margin-top: 1rem;"><span class="skill-chip">HTML/CSS/Three.js</span><span class="skill-chip">Java</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Resume Section -->
+ <section id="resume">
+    <div class="container">
+      <h2 class="section-title"><i class="fas fa-file-alt"></i> <span>My Resume</span></h2>
+      <div class="resume-container">
+        <i class="fas fa-file-pdf"></i>
+        <h3>Professional Resume</h3>
+        <p>Download or view my complete resume to see my full professional journey, skills, experience, and achievements.</p>
+        <div class="resume-buttons">
+          <button class="btn-resume" id="viewResumeBtn"><i class="fas fa-eye"></i> View Resume</button>
+          <button class="btn-outline-resume" id="downloadResumeBtn"><i class="fas fa-download"></i> Download PDF</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Section -->
+  <section id="contact">
+    <div class="container">
+      <h2 class="section-title"><i class="fas fa-paper-plane"></i> <span>Collide & Create</span></h2>
+      <div class="contact-wrapper">
+        <div class="contact-info-card">
+          <i class="fas fa-envelope"></i>
+          <h3>Email</h3>
+          <p><a href="mailto:gurashraani2221@gmail.com" class="contact-link" target="_blank">gurashraani2221@gmail.com</a></p>
+          
+          <i class="fab fa-github" style="margin-top: 1.5rem;"></i>
+          <h3>GitHub</h3>
+          <p><a href="https://github.com/GuravShravani" class="contact-link" target="_blank" rel="noopener noreferrer">github.com/GuravShravani</a></p>
+          
+          <i class="fab fa-linkedin" style="margin-top: 1.5rem;"></i>
+          <h3>LinkedIn</h3>
+          <p><a href="https://www.linkedin.com/in/shravani-gurav-063783304/" class="contact-link" target="_blank" rel="noopener noreferrer">linkedin.com/in/shravani-gurav</a></p>
+          
+          <i class="fas fa-phone-alt" style="margin-top: 1.5rem;"></i>
+          <h3>Phone</h3>
+          <p><a href="tel:+919172516585" class="contact-link">+91 9172516585</a></p>
+        </div>
+        
+        <div class="contact-form-card">
+          <h3 style="margin-bottom: 1.5rem; text-align: center;"><i class="fas fa-comment-dots"></i> Send a Message</h3>
+          <form id="contactForm">
+            <div class="form-group">
+              <input type="text" id="name" placeholder="Your Name" required>
+            </div>
+            <div class="form-group">
+              <input type="email" id="email" placeholder="Your Email" required>
+            </div>
+            <div class="form-group">
+              <input type="text" id="subject" placeholder="Subject" required>
+            </div>
+            <div class="form-group">
+              <textarea id="message" placeholder="Your Message..." required></textarea>
+            </div>
+            <button type="submit" class="submit-btn"><i class="fas fa-paper-plane"></i> Send Message</button>
+            <div id="formStatus" class="form-message"></div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+  <footer>
+    <p>© 2026 Shravani Gurav — Full-Stack Developer | Real-time WebGL Experience | Built with ❤️</p>
+  </footer>
+</div>
+
+<!-- Three.js Core Libraries -->
+<script type="importmap">
+  {
+    "imports": {
+      "three": "https://unpkg.com/three@0.128.0/build/three.module.js"
+    }
+  }
+</script>
+
+<script type="module">
+  import * as THREE from 'three';
+  import gsap from 'https://unpkg.com/gsap@3.12.5/index.js';
+  import { ScrollTrigger } from 'https://unpkg.com/gsap@3.12.5/ScrollTrigger.js';
+  
+  gsap.registerPlugin(ScrollTrigger);
+
+  // --- 3D Scene Setup ---
+  const container = document.getElementById('canvas-container');
+  const scene = new THREE.Scene();
+  scene.background = new THREE.Color(0x050510);
+  scene.fog = new THREE.FogExp2(0x050510, 0.008);
+
+  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(0, 2, 12);
+  
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+  renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(window.devicePixelRatio);
+  container.appendChild(renderer.domElement);
+
+  // Lighting
+  const ambientLight = new THREE.AmbientLight(0x404060);
+  scene.add(ambientLight);
+  const dirLight = new THREE.DirectionalLight(0xffffff, 1);
+  dirLight.position.set(2, 5, 3);
+  scene.add(dirLight);
+  const backLight = new THREE.PointLight(0x8844ff, 0.5);
+  backLight.position.set(-2, 1, -4);
+  scene.add(backLight);
+  
+  // Central glowing torus knot
+  const geometry = new THREE.TorusKnotGeometry(1.2, 0.3, 200, 32, 3, 4);
+  const material = new THREE.MeshStandardMaterial({ color: 0xa855f7, emissive: 0x3a0ca3, emissiveIntensity: 0.6, metalness: 0.7, roughness: 0.2 });
+  const knot = new THREE.Mesh(geometry, material);
+  scene.add(knot);
+  
+  // Floating particles
+  const particleCount = 2000;
+  const particlesGeometry = new THREE.BufferGeometry();
+  const positions = new Float32Array(particleCount * 3);
+  for (let i = 0; i < particleCount; i++) {
+    positions[i*3] = (Math.random() - 0.5) * 70;
+    positions[i*3+1] = (Math.random() - 0.5) * 40;
+    positions[i*3+2] = (Math.random() - 0.5) * 50 - 25;
+  }
+  particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
+  const particleMaterial = new THREE.PointsMaterial({ color: 0x7c3aed, size: 0.06, transparent: true, opacity: 0.5 });
+  const particles = new THREE.Points(particlesGeometry, particleMaterial);
+  scene.add(particles);
+  
+  // Floating orbs
+  const orbGroup = [];
+  const orbColors = [0xff44aa, 0x44aaff, 0xaaff44, 0xffaa44];
+  for (let i = 0; i < 60; i++) {
+    const orbGeo = new THREE.SphereGeometry(0.06 + Math.random() * 0.12, 8, 8);
+    const orbMat = new THREE.MeshStandardMaterial({ color: orbColors[Math.floor(Math.random() * orbColors.length)], emissive: 0x330066, emissiveIntensity: 0.3 });
+    const orb = new THREE.Mesh(orbGeo, orbMat);
+    orb.userData = {
+      speedX: (Math.random() - 0.5) * 0.01,
+      speedY: (Math.random() - 0.5) * 0.01,
+      speedZ: (Math.random() - 0.5) * 0.01,
+      range: 10,
+      startPos: new THREE.Vector3((Math.random() - 0.5) * 15, (Math.random() - 0.5) * 10, (Math.random() - 0.5) * 12 - 6)
+    };
+    orb.position.copy(orb.userData.startPos);
+    scene.add(orb);
+    orbGroup.push(orb);
+  }
+  
+  // Rotating rings
+  const ringGeo = new THREE.TorusGeometry(1.8, 0.05, 64, 300);
+  const ringMat = new THREE.MeshStandardMaterial({ color: 0x3b82f6, emissive: 0x1e3a8a, emissiveIntensity: 0.3 });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  scene.add(ring);
+  
+  const ring2Geo = new THREE.TorusGeometry(2.2, 0.04, 64, 300);
+  const ring2Mat = new THREE.MeshStandardMaterial({ color: 0xa855f7, emissive: 0x4c1d95, emissiveIntensity: 0.3 });
+  const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
+  scene.add(ring2);
+  
+  const ring3Geo = new THREE.TorusGeometry(2.6, 0.03, 64, 300);
+  const ring3Mat = new THREE.MeshStandardMaterial({ color: 0x06b6d4, emissive: 0x164e63, emissiveIntensity: 0.2 });
+  const ring3 = new THREE.Mesh(ring3Geo, ring3Mat);
+  scene.add(ring3);
+  
+  // Star background
+  const starGeo = new THREE.BufferGeometry();
+  const starCount = 1500;
+  const starPositions = [];
+  for (let i = 0; i < starCount; i++) {
+    starPositions.push((Math.random() - 0.5) * 250);
+    starPositions.push((Math.random() - 0.5) * 150);
+    starPositions.push((Math.random() - 0.5) * 100 - 50);
+  }
+  starGeo.setAttribute('position', new THREE.BufferAttribute(new Float32Array(starPositions), 3));
+  const starMatObj = new THREE.PointsMaterial({ color: 0xffffff, size: 0.08, transparent: true, opacity: 0.7 });
+  const starsField = new THREE.Points(starGeo, starMatObj);
+  scene.add(starsField);
+  
+  let time = 0;
+  
+  function animate3D() {
+    requestAnimationFrame(animate3D);
+    time += 0.012;
+    
+    knot.rotation.x = time * 0.5;
+    knot.rotation.y = time * 0.7;
+    knot.rotation.z = time * 0.3;
+    
+    ring.rotation.x = time * 0.3;
+    ring.rotation.z = time * 0.5;
+    ring2.rotation.y = time * 0.4;
+    ring2.rotation.x = time * 0.2;
+    ring3.rotation.z = time * 0.25;
+    ring3.rotation.x = time * 0.15;
+    
+    particles.rotation.y = time * 0.03;
+    particles.rotation.x = Math.sin(time * 0.1) * 0.1;
+    starsField.rotation.y += 0.0003;
+    
+    orbGroup.forEach(orb => {
+      orb.position.x += orb.userData.speedX;
+      orb.position.y += orb.userData.speedY;
+      orb.position.z += orb.userData.speedZ;
+      if (Math.abs(orb.position.x) > orb.userData.range) orb.userData.speedX *= -1;
+      if (Math.abs(orb.position.y) > orb.userData.range) orb.userData.speedY *= -1;
+      if (Math.abs(orb.position.z) > orb.userData.range) orb.userData.speedZ *= -1;
+    });
+    
+    camera.position.x += (0 - camera.position.x) * 0.02;
+    camera.position.y += (Math.sin(time * 0.2) * 0.2 - camera.position.y) * 0.02;
+    camera.lookAt(0, 0, 0);
+    
+    renderer.render(scene, camera);
+  }
+  
+  animate3D();
+  
+  window.addEventListener('resize', () => {
+    camera.aspect = window.innerWidth / window.innerHeight;
+    camera.updateProjectionMatrix();
+    renderer.setSize(window.innerWidth, window.innerHeight);
+  });
+  
+  // --- GSAP Scroll Animations ---
+  gsap.fromTo('.about-text, .about-stat-card', 
+    { opacity: 0, y: 50 },
+    {
+      opacity: 1, y: 0, duration: 0.8, stagger: 0.15, ease: "back.out",
+      scrollTrigger: { trigger: '#about', start: 'top 70%', toggleActions: 'play none none reverse' }
+    }
+  );
+  
+  gsap.fromTo('.timeline-item', 
+    { opacity: 0, x: -100 },
+    {
+      opacity: 1, x: 0, duration: 0.9, stagger: 0.25, ease: "back.out(1.2)",
+      scrollTrigger: { trigger: '#experience', start: 'top 70%', toggleActions: 'play none none reverse' }
+    }
+  );
+  
+  gsap.fromTo('#techSkills .skill-chip',
+    { opacity: 0, scale: 0, rotation: 360 },
+    {
+      opacity: 1, scale: 1, rotation: 0, duration: 0.6, stagger: 0.05, ease: "back.out(1.5)",
+      scrollTrigger: { trigger: '#skills', start: 'top 70%', toggleActions: 'play none none reverse' }
+    }
+  );
+  
+  gsap.fromTo('#softSkills .skill-chip',
+    { opacity: 0, scale: 0, rotation: -360 },
+    {
+      opacity: 1, scale: 1, rotation: 0, duration: 0.6, stagger: 0.06, ease: "back.out(1.5)", delay: 0.2,
+      scrollTrigger: { trigger: '#skills', start: 'top 70%', toggleActions: 'play none none reverse' }
+    }
+  );
+  
+  gsap.fromTo('.project-card-3d',
+    { opacity: 0, rotationY: 50, scale: 0.8 },
+    {
+      opacity: 1, rotationY: 0, scale: 1, duration: 0.9, stagger: 0.15, ease: "power3.out",
+      scrollTrigger: { trigger: '#projects', start: 'top 70%', toggleActions: 'play none none reverse' }
+    }
+  );
+  
+  gsap.fromTo('.contact-info-card, .contact-form-card',
+    { opacity: 0, y: 50 },
+    {
+      opacity: 1, y: 0, duration: 0.8, stagger: 0.2, ease: "back.out",
+      scrollTrigger: { trigger: '#contact', start: 'top 70%', toggleActions: 'play none none reverse' }
+    }
+  );
+  
+  gsap.fromTo('.resume-container',
+    { opacity: 0, y: 40 },
+    {
+      opacity: 1, y: 0, duration: 0.8,
+      scrollTrigger: { trigger: '#resume', start: 'top 70%', toggleActions: 'play none none reverse' }
+    }
+  );
+  
+  // Resume PDF Functions - REPLACE URL WITH YOUR ACTUAL RESUME PDF LINK
+  const RESUME_PDF_URL = 'C:\\Users\\HP\\Desktop\\SPCL_Task\\portfolio_web\\my-portfolio\\assets\\Shravani_Gurav_AI&DS.pdf';
+  
+  document.getElementById('viewResumeBtn').addEventListener('click', () => {
+    window.open(RESUME_PDF_URL, '_blank');
+  });
+  
+  document.getElementById('downloadResumeBtn').addEventListener('click', () => {
+    const a = document.createElement('a');
+    a.href = RESUME_PDF_URL;
+    a.download = 'C:\\Users\\HP\\Desktop\\SPCL_Task\\portfolio_web\\my-portfolio\\assets\\Shravani_Gurav_AI&DS.pdf';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    
+    const btn = document.getElementById('downloadResumeBtn');
+    const originalText = btn.innerHTML;
+    btn.innerHTML = '<i class="fas fa-check"></i> Downloaded!';
+    setTimeout(() => { btn.innerHTML = originalText; }, 2000);
+  });
+  
+  // Contact Form
+  const contactForm = document.getElementById('contactForm');
+  const formStatus = document.getElementById('formStatus');
+  
+  contactForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+    const subject = document.getElementById('subject').value;
+    const message = document.getElementById('message').value;
+    
+    if (!name || !email || !subject || !message) {
+      formStatus.className = 'form-message error';
+      formStatus.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Please fill all fields!';
+      setTimeout(() => { formStatus.className = 'form-message'; }, 3000);
+      return;
+    }
+    
+    const formData = { name, email, subject, message, date: new Date().toISOString() };
+    localStorage.setItem('lastContactMessage', JSON.stringify(formData));
+    
+    formStatus.className = 'form-message success';
+    formStatus.innerHTML = '<i class="fas fa-check-circle"></i> Message sent successfully! I\'ll get back to you soon.';
+    contactForm.reset();
+    setTimeout(() => { formStatus.className = 'form-message'; }, 4000);
+    console.log('Contact Form Submission:', formData);
+  });
+  
+  document.getElementById('exploreBtn').addEventListener('click', () => {
+    document.getElementById('about').scrollIntoView({ behavior: 'smooth' });
+  });
+  
+  // Mouse parallax
+  document.addEventListener('mousemove', (event) => {
+    const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
+    const mouseY = (event.clientY / window.innerHeight) * 2 - 1;
+    gsap.to(knot.rotation, { y: knot.rotation.y + mouseX * 0.03, x: knot.rotation.x + mouseY * 0.02, duration: 1, ease: "power2.out" });
+    gsap.to(camera.position, { x: mouseX * 0.6, y: mouseY * 0.4, duration: 1.2, ease: "power2.out" });
+  });
+  
+  // Smooth scroll nav
+  document.querySelectorAll('.nav-links a').forEach(anchor => {
+    anchor.addEventListener('click', function(e) {
+      e.preventDefault();
+      const targetId = this.getAttribute('href').substring(1);
+      const target = document.getElementById(targetId);
+      if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+</script>
+</body>
+</html>
