@@ -264,7 +264,7 @@
 
     .projects-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
       gap: 2rem;
       margin-top: 2rem;
     }
@@ -276,12 +276,45 @@
       padding: 1.8rem;
       transition: all 0.5s;
       border: 1px solid rgba(255, 255, 255, 0.1);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .project-card-3d::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(168,85,247,0.1), transparent);
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+
+    .project-card-3d:hover::before {
+      opacity: 1;
     }
 
     .project-card-3d:hover {
-      transform: translateY(-15px);
+      transform: translateY(-15px) rotateX(5deg);
       box-shadow: 0 25px 40px rgba(168, 85, 247, 0.3);
       border-color: #a855f7;
+    }
+
+    .project-tech {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+      margin-top: 1rem;
+    }
+
+    .tech-tag {
+      background: rgba(168, 85, 247, 0.2);
+      padding: 0.3rem 0.8rem;
+      border-radius: 20px;
+      font-size: 0.75rem;
+      color: #a855f7;
     }
 
     .resume-container {
@@ -373,6 +406,7 @@
     
     .contact-link:hover {
       color: #a855f7;
+      transform: scale(1.05);
     }
     
     .contact-info-card i {
@@ -506,6 +540,63 @@
       .nav-links { gap: 0.8rem; font-size: 0.7rem; }
       .section-title { font-size: 1.8rem; }
     }
+
+    .view-messages-btn {
+      margin-top: 1rem;
+      background: transparent;
+      border: 1px solid #22c55e;
+      color: #22c55e;
+      padding: 0.6rem 1.2rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .view-messages-btn:hover {
+      background: rgba(34, 197, 94, 0.2);
+      transform: scale(1.05);
+    }
+
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.8);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .modal-content {
+      background: #1a1a2e;
+      padding: 2rem;
+      border-radius: 20px;
+      max-width: 80%;
+      max-height: 80%;
+      overflow: auto;
+      border: 2px solid #a855f7;
+      position: relative;
+    }
+
+    .close-modal {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #a855f7;
+    }
+
+    .message-item {
+      background: rgba(168,85,247,0.1);
+      padding: 1rem;
+      margin-bottom: 1rem;
+      border-radius: 10px;
+      border-left: 3px solid #a855f7;
+    }
   </style>
 </head>
 <body>
@@ -570,17 +661,33 @@
         <div class="timeline-item">
           <h3><i class="fas fa-code"></i> Jr.Full Stack Developer Intern</h3>
           <p style="color: #a855f7;">SPCL Infotech PVT.LTD | Pune · 12/2025 – Present</p>
-          <p>Leading live full stack project development with React, Three.js, and Node.js.</p>
+          <p>Leading live full stack project development with React, Three.js, and Node.js. Building reactive design systems and optimizing performance.</p>
+          <div style="display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;">
+            <span class="skill-chip" style="font-size: 0.75rem;">React.js</span>
+            <span class="skill-chip" style="font-size: 0.75rem;">Three.js</span>
+            <span class="skill-chip" style="font-size: 0.75rem;">Node.js</span>
+            <span class="skill-chip" style="font-size: 0.75rem;">MongoDB</span>
+          </div>
         </div>
         <div class="timeline-item">
           <h3><i class="fas fa-globe"></i> Android Developer</h3>
           <p style="color: #a855f7;">Stormsoft Technology PVT.LTD | Ichalkaranji · 06/2024 – 07/2024</p>
           <p>Developed real-time data applications using Android SDK and SQLite.</p>
+          <div style="display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;">
+            <span class="skill-chip" style="font-size: 0.75rem;">Android SDK</span>
+            <span class="skill-chip" style="font-size: 0.75rem;">SQLite</span>
+            <span class="skill-chip" style="font-size: 0.75rem;">Java</span>
+          </div>
         </div>
         <div class="timeline-item">
           <h3><i class="fas fa-paintbrush"></i> Project Trainee</h3>
           <p style="color: #a855f7;">ECS Software Technology PVT.LTD | Karad · 07/2022 – 08/2022</p>
           <p>Built websites using HTML, CSS, JavaScript, React and Node.js.</p>
+          <div style="display: flex; gap: 0.5rem; margin-top: 1rem; flex-wrap: wrap;">
+            <span class="skill-chip" style="font-size: 0.75rem;">HTML/CSS</span>
+            <span class="skill-chip" style="font-size: 0.75rem;">JavaScript</span>
+            <span class="skill-chip" style="font-size: 0.75rem;">React</span>
+          </div>
         </div>
       </div>
     </div>
@@ -594,11 +701,13 @@
         <span class="skill-chip">Node.js</span><span class="skill-chip">React</span><span class="skill-chip">Tailwind</span>
         <span class="skill-chip">MongoDB</span><span class="skill-chip">HTML</span><span class="skill-chip">JavaScript</span>
         <span class="skill-chip">Three.js</span><span class="skill-chip">TypeScript</span><span class="skill-chip">Git</span>
+        <span class="skill-chip">Docker</span><span class="skill-chip">AWS</span><span class="skill-chip">Firebase</span>
       </div>
       <h3 style="text-align: center; margin: 3rem 0 1rem; color: #a855f7;">✨ Soft Energies</h3>
       <div class="skills-grid-3d">
         <span class="skill-chip">Creative Leadership</span><span class="skill-chip">Problem Solving</span>
         <span class="skill-chip">Communication</span><span class="skill-chip">Strategic Vision</span>
+        <span class="skill-chip">Team Collaboration</span><span class="skill-chip">Agile Methodology</span>
       </div>
     </div>
   </section>
@@ -609,18 +718,47 @@
       <div class="projects-grid">
         <div class="project-card-3d">
           <i class="fas fa-chart-line" style="font-size: 2.5rem; color: #a855f7;"></i>
-          <h3>BillMe Online Payment Web</h3>
-          <p>Real-time invoicing and digital wallet payment solutions.</p>
+          <h3 style="margin: 1rem 0;">BillMe Online Payment Web</h3>
+          <p>Real-time invoicing and digital wallet payment solutions with secure transaction processing.</p>
+          <div class="project-tech">
+            <span class="tech-tag">React.js</span>
+            <span class="tech-tag">Java</span>
+            <span class="tech-tag">Spring Boot</span>
+            <span class="tech-tag">MySQL</span>
+          </div>
         </div>
         <div class="project-card-3d">
           <i class="fas fa-microchip" style="font-size: 2.5rem; color: #a855f7;"></i>
-          <h3>AI Disease Diagnosis</h3>
-          <p>AI-driven system for early disease detection using ML.</p>
+          <h3 style="margin: 1rem 0;">AI Disease Diagnosis</h3>
+          <p>AI-driven system for early disease detection using machine learning algorithms and IoT sensors.</p>
+          <div class="project-tech">
+            <span class="tech-tag">Python</span>
+            <span class="tech-tag">TensorFlow</span>
+            <span class="tech-tag">IoT</span>
+            <span class="tech-tag">Flask</span>
+          </div>
         </div>
         <div class="project-card-3d">
           <i class="fas fa-brain" style="font-size: 2.5rem; color: #a855f7;"></i>
-          <h3>The Brand Hub</h3>
-          <p>Dynamic brand showcase with 3D interactive elements.</p>
+          <h3 style="margin: 1rem 0;">The Brand Hub</h3>
+          <p>Dynamic brand showcase website with 3D interactive elements and smooth animations.</p>
+          <div class="project-tech">
+            <span class="tech-tag">Three.js</span>
+            <span class="tech-tag">GSAP</span>
+            <span class="tech-tag">WebGL</span>
+            <span class="tech-tag">CSS3</span>
+          </div>
+        </div>
+        <div class="project-card-3d">
+          <i class="fas fa-mobile-alt" style="font-size: 2.5rem; color: #a855f7;"></i>
+          <h3 style="margin: 1rem 0;">E-Commerce Mobile App</h3>
+          <p>Full-featured e-commerce mobile application with real-time inventory and payment integration.</p>
+          <div class="project-tech">
+            <span class="tech-tag">React Native</span>
+            <span class="tech-tag">Firebase</span>
+            <span class="tech-tag">Redux</span>
+            <span class="tech-tag">Stripe</span>
+          </div>
         </div>
       </div>
     </div>
@@ -638,7 +776,7 @@
           <button class="btn-outline-resume" id="downloadResumeBtn"><i class="fas fa-download"></i> Download PDF</button>
         </div>
         <div style="margin-top: 1rem; font-size: 0.85rem; color: #cbd5e1;">
-          <i class="fas fa-info-circle"></i> Your resume will be generated automatically from portfolio information
+          <i class="fas fa-info-circle"></i> Click View to see my professional resume
         </div>
       </div>
     </div>
@@ -651,7 +789,7 @@
         <div class="contact-info-card">
           <i class="fas fa-envelope"></i>
           <h3>Email</h3>
-          <p><a href="mailto:gurashraani2221@gmail.com" class="contact-link">gurashraani2221@gmail.com</a></p>
+          <p><a href="#" class="contact-link" id="emailLink">gurashraani2221@gmail.com</a></p>
           
           <i class="fab fa-github"></i>
           <h3>GitHub</h3>
@@ -664,6 +802,10 @@
           <i class="fas fa-phone-alt"></i>
           <h3>Phone</h3>
           <p><a href="tel:+919172516585" class="contact-link">+91 9172516585</a></p>
+          
+          <button class="view-messages-btn" id="viewMessagesBtn">
+            <i class="fas fa-envelope"></i> View Saved Messages
+          </button>
         </div>
         
         <div class="contact-form-card">
@@ -690,8 +832,16 @@
   </section>
   
   <footer>
-    <p>© 2026 Shravani Gurav — Full-Stack Developer | Built with ❤️</p>
+    <p>© 2025 Shravani Gurav — Full-Stack Developer | Built with ❤️</p>
   </footer>
+</div>
+
+<div id="messagesModal" class="modal">
+  <div class="modal-content">
+    <span class="close-modal">&times;</span>
+    <h3 style="color: #a855f7; margin-bottom: 1rem;"><i class="fas fa-envelope"></i> Saved Messages</h3>
+    <div id="messagesList"></div>
+  </div>
 </div>
 
 <script type="importmap">
@@ -709,55 +859,321 @@
   
   gsap.registerPlugin(ScrollTrigger);
 
-  // 3D Scene
   const container = document.getElementById('canvas-container');
   const scene = new THREE.Scene();
   scene.background = new THREE.Color(0x050510);
-  scene.fog = new THREE.FogExp2(0x050510, 0.008);
+  scene.fog = new THREE.FogExp2(0x050510, 0.005);
 
-  const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 1000);
-  camera.position.set(0, 2, 12);
+  const camera = new THREE.PerspectiveCamera(60, window.innerWidth / window.innerHeight, 0.1, 1000);
+  camera.position.set(0, 3, 15);
   
-  const renderer = new THREE.WebGLRenderer({ antialias: true });
+  const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: false });
   renderer.setSize(window.innerWidth, window.innerHeight);
+  renderer.setPixelRatio(window.devicePixelRatio);
   container.appendChild(renderer.domElement);
 
+  // Lighting
   const ambientLight = new THREE.AmbientLight(0x404060);
   scene.add(ambientLight);
   const dirLight = new THREE.DirectionalLight(0xffffff, 1);
   dirLight.position.set(2, 5, 3);
   scene.add(dirLight);
+  const backLight = new THREE.PointLight(0x8844ff, 0.5);
+  backLight.position.set(-2, 1, -4);
+  scene.add(backLight);
+  const fillLight = new THREE.PointLight(0xff66cc, 0.3);
+  fillLight.position.set(3, 2, 4);
+  scene.add(fillLight);
   
-  const geometry = new THREE.TorusKnotGeometry(1.2, 0.3, 200, 32, 3, 4);
-  const material = new THREE.MeshStandardMaterial({ color: 0xa855f7, emissive: 0x3a0ca3, emissiveIntensity: 0.6 });
+  // Main Center Object - Glowing Torus Knot
+  const geometry = new THREE.TorusKnotGeometry(1.3, 0.35, 200, 32, 3, 4);
+  const material = new THREE.MeshStandardMaterial({ 
+    color: 0xa855f7, 
+    emissive: 0x3a0ca3, 
+    emissiveIntensity: 0.8, 
+    metalness: 0.8, 
+    roughness: 0.2,
+    transparent: true,
+    opacity: 0.95
+  });
   const knot = new THREE.Mesh(geometry, material);
   scene.add(knot);
   
-  const particleCount = 2000;
-  const particlesGeometry = new THREE.BufferGeometry();
-  const positions = new Float32Array(particleCount * 3);
-  for (let i = 0; i < particleCount; i++) {
-    positions[i*3] = (Math.random() - 0.5) * 70;
-    positions[i*3+1] = (Math.random() - 0.5) * 40;
-    positions[i*3+2] = (Math.random() - 0.5) * 50 - 25;
-  }
-  particlesGeometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
-  const particles = new THREE.Points(particlesGeometry, new THREE.PointsMaterial({ color: 0x7c3aed, size: 0.06 }));
-  scene.add(particles);
+  // Add glow effect to knot
+  const glowGeometry = new THREE.TorusKnotGeometry(1.35, 0.4, 200, 32, 3, 4);
+  const glowMaterial = new THREE.MeshBasicMaterial({ color: 0xa855f7, transparent: true, opacity: 0.15 });
+  const glowKnot = new THREE.Mesh(glowGeometry, glowMaterial);
+  scene.add(glowKnot);
   
-  let time = 0;
+  // === MOON ===
+  const moonGeometry = new THREE.SphereGeometry(0.8, 64, 64);
+  const moonMaterial = new THREE.MeshStandardMaterial({
+    color: 0xcbd5e1,
+    emissive: 0x334155,
+    emissiveIntensity: 0.2,
+    roughness: 0.5,
+    metalness: 0.1
+  });
+  const moon = new THREE.Mesh(moonGeometry, moonMaterial);
+  moon.position.set(-5, 3, -8);
+  scene.add(moon);
+  
+  // Moon craters
+  const craterGeometry = new THREE.SphereGeometry(0.12, 16, 16);
+  const craterMaterial = new THREE.MeshStandardMaterial({ color: 0x94a3b8, roughness: 0.8 });
+  const craterPositions = [[-0.3, 0.2, 0.4], [0.4, -0.1, 0.3], [-0.1, -0.4, 0.2], [0.2, 0.3, -0.2], [-0.4, -0.2, -0.1]];
+  craterPositions.forEach(pos => {
+    const crater = new THREE.Mesh(craterGeometry, craterMaterial);
+    crater.position.set(pos[0], pos[1], pos[2]);
+    moon.add(crater);
+  });
+  
+  // === ROCKET ===
+  const rocketGroup = new THREE.Group();
+  
+  // Rocket body
+  const bodyGeometry = new THREE.CylinderGeometry(0.25, 0.4, 1.2, 32);
+  const bodyMaterial = new THREE.MeshStandardMaterial({ color: 0xef4444, metalness: 0.7, roughness: 0.3 });
+  const rocketBody = new THREE.Mesh(bodyGeometry, bodyMaterial);
+  rocketGroup.add(rocketBody);
+  
+  // Rocket nose
+  const noseGeometry = new THREE.ConeGeometry(0.3, 0.5, 32);
+  const noseMaterial = new THREE.MeshStandardMaterial({ color: 0xf97316, metalness: 0.6 });
+  const rocketNose = new THREE.Mesh(noseGeometry, noseMaterial);
+  rocketNose.position.y = 0.65;
+  rocketGroup.add(rocketNose);
+  
+  // Rocket fins
+  const finGeometry = new THREE.ConeGeometry(0.2, 0.4, 4);
+  const finMaterial = new THREE.MeshStandardMaterial({ color: 0xdc2626 });
+  const leftFin = new THREE.Mesh(finGeometry, finMaterial);
+  leftFin.position.set(-0.35, -0.4, 0);
+  leftFin.rotation.z = 0.5;
+  rocketGroup.add(leftFin);
+  
+  const rightFin = new THREE.Mesh(finGeometry, finMaterial);
+  rightFin.position.set(0.35, -0.4, 0);
+  rightFin.rotation.z = -0.5;
+  rocketGroup.add(rightFin);
+  
+  // Rocket window
+  const windowGeometry = new THREE.SphereGeometry(0.12, 16, 16);
+  const windowMaterial = new THREE.MeshStandardMaterial({ color: 0x3b82f6, emissive: 0x1e3a8a, emissiveIntensity: 0.5 });
+  const rocketWindow = new THREE.Mesh(windowGeometry, windowMaterial);
+  rocketWindow.position.set(0, 0.2, 0.25);
+  rocketGroup.add(rocketWindow);
+  
+  // Rocket flame
+  const flameGeometry = new THREE.ConeGeometry(0.15, 0.3, 8);
+  const flameMaterial = new THREE.MeshStandardMaterial({ color: 0xff6600, emissive: 0xff4400, emissiveIntensity: 0.8 });
+  const flame = new THREE.Mesh(flameGeometry, flameMaterial);
+  flame.position.set(0, -0.7, 0);
+  rocketGroup.add(flame);
+  
+  rocketGroup.position.set(4, -1, -5);
+  scene.add(rocketGroup);
+  
+  // === FLOATING SHAPES (Cubes, Spheres, Icosahedrons) ===
+  const shapes = [];
+  const shapeColors = [0xa855f7, 0x3b82f6, 0x06b6d4, 0xec4899, 0x10b981, 0xf59e0b];
+  
+  for (let i = 0; i < 80; i++) {
+    let shapeGeometry;
+    const shapeType = Math.random();
+    if (shapeType < 0.4) {
+      shapeGeometry = new THREE.BoxGeometry(0.12, 0.12, 0.12);
+    } else if (shapeType < 0.7) {
+      shapeGeometry = new THREE.SphereGeometry(0.08, 8, 8);
+    } else {
+      shapeGeometry = new THREE.IcosahedronGeometry(0.1, 0);
+    }
+    
+    const shapeMaterial = new THREE.MeshStandardMaterial({
+      color: shapeColors[Math.floor(Math.random() * shapeColors.length)],
+      emissive: 0x330066,
+      emissiveIntensity: 0.2,
+      metalness: 0.5,
+      roughness: 0.3
+    });
+    
+    const shape = new THREE.Mesh(shapeGeometry, shapeMaterial);
+    shape.userData = {
+      speedX: (Math.random() - 0.5) * 0.008,
+      speedY: (Math.random() - 0.5) * 0.008,
+      speedZ: (Math.random() - 0.5) * 0.008,
+      rotSpeedX: (Math.random() - 0.5) * 0.02,
+      rotSpeedY: (Math.random() - 0.5) * 0.02,
+      rotSpeedZ: (Math.random() - 0.5) * 0.02,
+      startPos: new THREE.Vector3(
+        (Math.random() - 0.5) * 25,
+        (Math.random() - 0.5) * 15,
+        (Math.random() - 0.5) * 20 - 10
+      )
+    };
+    shape.position.copy(shape.userData.startPos);
+    scene.add(shape);
+    shapes.push(shape);
+  }
+  
+  // === SHINY STARS (Large glowing stars) ===
+  const shinyStars = [];
+  for (let i = 0; i < 60; i++) {
+    const starGeometry = new THREE.SphereGeometry(0.05 + Math.random() * 0.08, 16, 16);
+    const starMaterial = new THREE.MeshStandardMaterial({
+      color: 0xffdd88,
+      emissive: 0xffaa44,
+      emissiveIntensity: 0.6 + Math.random() * 0.5,
+      metalness: 0.9
+    });
+    const star = new THREE.Mesh(starGeometry, starMaterial);
+    star.userData = {
+      speedX: (Math.random() - 0.5) * 0.003,
+      speedY: (Math.random() - 0.5) * 0.003,
+      pulseSpeed: 0.5 + Math.random() * 1,
+      originalScale: 0.8 + Math.random() * 0.5
+    };
+    star.position.set(
+      (Math.random() - 0.5) * 35,
+      (Math.random() - 0.5) * 20,
+      (Math.random() - 0.5) * 25 - 15
+    );
+    star.scale.setScalar(star.userData.originalScale);
+    scene.add(star);
+    shinyStars.push(star);
+  }
+  
+  // === BACKGROUND STARS (Particle System) ===
+  const starCount = 2500;
+  const starGeometryBg = new THREE.BufferGeometry();
+  const starPositionsBg = new Float32Array(starCount * 3);
+  const starColorsBg = new Float32Array(starCount * 3);
+  
+  for (let i = 0; i < starCount; i++) {
+    starPositionsBg[i*3] = (Math.random() - 0.5) * 200;
+    starPositionsBg[i*3+1] = (Math.random() - 0.5) * 100;
+    starPositionsBg[i*3+2] = (Math.random() - 0.5) * 80 - 30;
+    
+    const colorVal = 0.6 + Math.random() * 0.4;
+    starColorsBg[i*3] = colorVal;
+    starColorsBg[i*3+1] = colorVal * 0.8;
+    starColorsBg[i*3+2] = colorVal;
+  }
+  starGeometryBg.setAttribute('position', new THREE.BufferAttribute(starPositionsBg, 3));
+  starGeometryBg.setAttribute('color', new THREE.BufferAttribute(starColorsBg, 3));
+  const starMaterialBg = new THREE.PointsMaterial({ size: 0.1, vertexColors: true, transparent: true, opacity: 0.7 });
+  const starsField = new THREE.Points(starGeometryBg, starMaterialBg);
+  scene.add(starsField);
+  
+  // === FLOATING PARTICLES ===
+  const particleCount = 3000;
+  const particleGeometry = new THREE.BufferGeometry();
+  const particlePositions = new Float32Array(particleCount * 3);
+  for (let i = 0; i < particleCount; i++) {
+    particlePositions[i*3] = (Math.random() - 0.5) * 60;
+    particlePositions[i*3+1] = (Math.random() - 0.5) * 40;
+    particlePositions[i*3+2] = (Math.random() - 0.5) * 50 - 20;
+  }
+  particleGeometry.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
+  const particleMaterialFloat = new THREE.PointsMaterial({ color: 0x7c3aed, size: 0.05, transparent: true, opacity: 0.4 });
+  const floatingParticles = new THREE.Points(particleGeometry, particleMaterialFloat);
+  scene.add(floatingParticles);
+  
+  // === RINGS AROUND KNOT ===
+  const ringGeo = new THREE.TorusGeometry(1.9, 0.04, 64, 300);
+  const ringMat = new THREE.MeshStandardMaterial({ color: 0x3b82f6, emissive: 0x1e3a8a, emissiveIntensity: 0.4 });
+  const ring = new THREE.Mesh(ringGeo, ringMat);
+  scene.add(ring);
+  
+  const ring2Geo = new THREE.TorusGeometry(2.3, 0.03, 64, 300);
+  const ring2Mat = new THREE.MeshStandardMaterial({ color: 0xa855f7, emissive: 0x4c1d95, emissiveIntensity: 0.4 });
+  const ring2 = new THREE.Mesh(ring2Geo, ring2Mat);
+  scene.add(ring2);
+  
+  const ring3Geo = new THREE.TorusGeometry(2.7, 0.03, 64, 300);
+  const ring3Mat = new THREE.MeshStandardMaterial({ color: 0x06b6d4, emissive: 0x164e63, emissiveIntensity: 0.3 });
+  const ring3 = new THREE.Mesh(ring3Geo, ring3Mat);
+  scene.add(ring3);
+  
+  // Rocket animation variables
+  let rocketTime = 0;
+  let starPulseTime = 0;
   
   function animate() {
     requestAnimationFrame(animate);
     time += 0.012;
+    starPulseTime += 0.02;
+    rocketTime += 0.02;
+    
+    // Main knot rotation
     knot.rotation.x = time * 0.5;
     knot.rotation.y = time * 0.7;
-    particles.rotation.y = time * 0.03;
+    knot.rotation.z = time * 0.3;
+    glowKnot.rotation.copy(knot.rotation);
+    
+    // Ring rotations
+    ring.rotation.x = time * 0.3;
+    ring.rotation.z = time * 0.5;
+    ring2.rotation.y = time * 0.4;
+    ring2.rotation.x = time * 0.2;
+    ring3.rotation.z = time * 0.25;
+    ring3.rotation.x = time * 0.15;
+    
+    // Floating particles rotation
+    floatingParticles.rotation.y = time * 0.02;
+    floatingParticles.rotation.x = Math.sin(time * 0.1) * 0.05;
+    starsField.rotation.y += 0.0003;
+    
+    // Animate shapes
+    shapes.forEach(shape => {
+      shape.position.x += shape.userData.speedX;
+      shape.position.y += shape.userData.speedY;
+      shape.position.z += shape.userData.speedZ;
+      shape.rotation.x += shape.userData.rotSpeedX;
+      shape.rotation.y += shape.userData.rotSpeedY;
+      shape.rotation.z += shape.userData.rotSpeedZ;
+      
+      if (Math.abs(shape.position.x) > 15) shape.userData.speedX *= -1;
+      if (Math.abs(shape.position.y) > 12) shape.userData.speedY *= -1;
+      if (Math.abs(shape.position.z) > 18) shape.userData.speedZ *= -1;
+    });
+    
+    // Animate shiny stars with pulse effect
+    shinyStars.forEach((star, idx) => {
+      star.position.x += star.userData.speedX;
+      star.position.y += star.userData.speedY;
+      const scale = star.userData.originalScale + Math.sin(starPulseTime * star.userData.pulseSpeed + idx) * 0.15;
+      star.scale.setScalar(Math.max(0.3, scale));
+      
+      if (Math.abs(star.position.x) > 20) star.userData.speedX *= -1;
+      if (Math.abs(star.position.y) > 15) star.userData.speedY *= -1;
+    });
+    
+    // Animate rocket
+    const rocketX = 4 + Math.sin(rocketTime * 0.8) * 1.5;
+    const rocketY = -1 + Math.sin(rocketTime * 1.2) * 1.2;
+    rocketGroup.position.x = rocketX;
+    rocketGroup.position.y = rocketY;
+    rocketGroup.rotation.z = Math.sin(rocketTime * 1.5) * 0.2;
+    rocketGroup.rotation.x = Math.sin(rocketTime * 1.2) * 0.1;
+    
+    // Animate flame
+    const flameScale = 0.8 + Math.sin(rocketTime * 20) * 0.3;
+    flame.scale.set(1, flameScale, 1);
+    
+    // Animate moon rotation
+    moon.rotation.y += 0.003;
+    moon.rotation.x += 0.002;
+    
+    // Camera movement
     camera.position.x += (0 - camera.position.x) * 0.02;
-    camera.position.y += (Math.sin(time * 0.2) * 0.2 - camera.position.y) * 0.02;
+    camera.position.y += (Math.sin(time * 0.2) * 0.3 - camera.position.y) * 0.02;
     camera.lookAt(0, 0, 0);
+    
     renderer.render(scene, camera);
   }
+  
+  let time = 0;
   animate();
   
   window.addEventListener('resize', () => {
@@ -766,7 +1182,7 @@
     renderer.setSize(window.innerWidth, window.innerHeight);
   });
   
-  // GSAP Animations
+  // GSAP Scroll Animations
   gsap.fromTo('.about-text, .about-stat-card', 
     { opacity: 0, y: 50 },
     { opacity: 1, y: 0, duration: 0.8, stagger: 0.15, scrollTrigger: { trigger: '#about', start: 'top 70%' } }
@@ -787,215 +1203,160 @@
     { opacity: 1, y: 0, duration: 0.9, stagger: 0.15, scrollTrigger: { trigger: '#projects', start: 'top 70%' } }
   );
   
-  // ========== RESUME FUNCTIONALITY - WORKING ==========
+  gsap.fromTo('.resume-container', 
+    { opacity: 0, y: 40 },
+    { opacity: 1, y: 0, duration: 0.8, scrollTrigger: { trigger: '#resume', start: 'top 70%' } }
+  );
   
-  // Function to generate professional resume HTML
+  gsap.fromTo('.contact-info-card, .contact-form-card', 
+    { opacity: 0, y: 50 },
+    { opacity: 1, y: 0, duration: 0.8, stagger: 0.2, scrollTrigger: { trigger: '#contact', start: 'top 70%' } }
+  );
+  
+  // Email Link Fix
+  document.getElementById('emailLink').addEventListener('click', function(e) {
+    e.preventDefault();
+    window.location.href = 'mailto:gurashraani2221@gmail.com';
+  });
+  
+  // Resume Functionality
   function generateResumeHTML() {
-    return `
-      <!DOCTYPE html>
-      <html>
-      <head>
-        <title>Shravani Gurav - Professional Resume</title>
-        <meta charset="UTF-8">
-        <style>
-          * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-          }
-          body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            padding: 40px 20px;
-          }
-          .resume-card {
-            max-width: 900px;
-            margin: 0 auto;
-            background: white;
-            border-radius: 20px;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            overflow: hidden;
-          }
-          .resume-header {
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            color: white;
-            padding: 40px;
-            text-align: center;
-          }
-          .resume-header h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
-          }
-          .resume-header p {
-            font-size: 1.2rem;
-            opacity: 0.9;
-          }
-          .resume-body {
-            padding: 40px;
-          }
-          .section {
-            margin-bottom: 30px;
-          }
-          .section h2 {
-            color: #764ba2;
-            border-bottom: 2px solid #764ba2;
-            padding-bottom: 10px;
-            margin-bottom: 20px;
-          }
-          .contact-info {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-          }
-          .contact-info a {
-            color: white;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
-          }
-          .job {
-            margin-bottom: 25px;
-          }
-          .job-title {
-            font-size: 1.2rem;
-            font-weight: bold;
-            color: #333;
-          }
-          .company {
-            color: #764ba2;
-            font-weight: 600;
-          }
-          .date {
-            color: #666;
-            font-size: 0.9rem;
-            margin: 5px 0;
-          }
-          .skills-list {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 10px;
-            margin-top: 15px;
-          }
-          .skill-tag {
-            background: #f0f0f0;
-            padding: 5px 15px;
-            border-radius: 20px;
-            font-size: 0.9rem;
-            color: #764ba2;
-          }
-          ul {
-            margin-left: 20px;
-            margin-top: 10px;
-          }
-          li {
-            margin: 8px 0;
-            line-height: 1.5;
-            color: #555;
-          }
-          @media print {
-            body {
-              background: white;
-              padding: 0;
-            }
-            .resume-card {
-              box-shadow: none;
-            }
-          }
-        </style>
-      </head>
-      <body>
-        <div class="resume-card">
-          <div class="resume-header">
-            <h1>Shravani Gurav</h1>
-            <p>Full Stack Developer</p>
-            <div class="contact-info">
-              <a href="mailto:gurashraani2221@gmail.com">📧 gurashraani2221@gmail.com</a>
-              <a href="tel:+919172516585">📞 +91 9172516585</a>
-              <a href="https://github.com/GuravShravani" target="_blank">🐙 GitHub</a>
-              <a href="https://linkedin.com/in/shravani-gurav-063783304" target="_blank">🔗 LinkedIn</a>
-            </div>
-          </div>
-          <div class="resume-body">
-            <div class="section">
-              <h2>Professional Summary</h2>
-              <p>Passionate Full-Stack Developer with experience in building modern web applications and 3D interactive experiences. Skilled in React, Node.js, Three.js, and modern web technologies. Dedicated to creating innovative solutions that solve real-world problems.</p>
-            </div>
-            
-            <div class="section">
-              <h2>Work Experience</h2>
-              <div class="job">
-                <div class="job-title">Jr. Full Stack Developer Intern</div>
-                <div class="company">SPCL Infotech PVT.LTD | Pune</div>
-                <div class="date">December 2024 - Present</div>
-                <ul>
-                  <li>Leading live full stack project development with React and Node.js</li>
-                  <li>Building reactive design systems with Three.js for 3D experiences</li>
-                  <li>Optimizing application performance and implementing best practices</li>
-                </ul>
-              </div>
-              <div class="job">
-                <div class="job-title">Android Developer</div>
-                <div class="company">Stormsoft Technology PVT.LTD | Ichalkaranji</div>
-                <div class="date">June 2024 - July 2024</div>
-                <ul>
-                  <li>Developed real-time data applications with Android SDK</li>
-                  <li>Managed database operations using SQLite</li>
-                  <li>Implemented user-friendly interfaces and smooth navigation</li>
-                </ul>
-              </div>
-              <div class="job">
-                <div class="job-title">Project Trainee</div>
-                <div class="company">ECS Software Technology PVT.LTD | Karad</div>
-                <div class="date">July 2022 - August 2022</div>
-                <ul>
-                  <li>Built responsive websites using HTML, CSS, JavaScript, and React</li>
-                  <li>Gained hands-on experience in full-stack development</li>
-                  <li>Collaborated with team members on project delivery</li>
-                </ul>
-              </div>
-            </div>
-            
-            <div class="section">
-              <h2>Technical Skills</h2>
-              <div class="skills-list">
-                <span class="skill-tag">Java</span><span class="skill-tag">Python</span>
-                <span class="skill-tag">JavaScript</span><span class="skill-tag">React</span>
-                <span class="skill-tag">Node.js</span><span class="skill-tag">Three.js</span>
-                <span class="skill-tag">MongoDB</span><span class="skill-tag">PostgreSQL</span>
-                <span class="skill-tag">Git</span><span class="skill-tag">HTML/CSS</span>
-                <span class="skill-tag">TypeScript</span><span class="skill-tag">Tailwind</span>
-              </div>
-            </div>
-            
-            <div class="section">
-              <h2>Projects</h2>
-              <ul>
-                <li><strong>BillMe Online Payment Web</strong> - Real-time invoicing and digital wallet solution using React and Java</li>
-                <li><strong>AI Driven Body Disease Diagnosis</strong> - ML/IoT based disease detection system with Python</li>
-                <li><strong>The Brand Hub</strong> - 3D interactive brand showcase website using Three.js</li>
-              </ul>
-            </div>
-            
-            <div class="section">
-              <h2>Education & Certifications</h2>
-              <ul>
-                <li>Bachelor's Degree in Computer Science</li>
-                <li>Full Stack Development Certification</li>
-                <li>AI & Machine Learning Certification</li>
-                <li>Web3D Development with Three.js</li>
-              </ul>
-            </div>
-          </div>
+    return `<!DOCTYPE html>
+<html>
+<head>
+  <title>Shravani Gurav - Professional Resume</title>
+  <meta charset="UTF-8">
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      padding: 40px 20px;
+    }
+    .resume-card {
+      max-width: 900px;
+      margin: 0 auto;
+      background: white;
+      border-radius: 20px;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+      overflow: hidden;
+    }
+    .resume-header {
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      color: white;
+      padding: 40px;
+      text-align: center;
+    }
+    .resume-header h1 { font-size: 2.5rem; margin-bottom: 10px; }
+    .resume-header p { font-size: 1.2rem; opacity: 0.9; }
+    .resume-body { padding: 40px; }
+    .section { margin-bottom: 30px; }
+    .section h2 {
+      color: #764ba2;
+      border-bottom: 2px solid #764ba2;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    .contact-info {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .contact-info a {
+      color: white;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .job { margin-bottom: 25px; }
+    .job-title { font-size: 1.2rem; font-weight: bold; color: #333; }
+    .company { color: #764ba2; font-weight: 600; }
+    .date { color: #666; font-size: 0.9rem; margin: 5px 0; }
+    .skills-list {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 15px;
+    }
+    .skill-tag {
+      background: #f0f0f0;
+      padding: 5px 15px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      color: #764ba2;
+    }
+    ul { margin-left: 20px; margin-top: 10px; }
+    li { margin: 8px 0; line-height: 1.5; color: #555; }
+    @media print {
+      body { background: white; padding: 0; }
+      .resume-card { box-shadow: none; }
+    }
+  </style>
+</head>
+<body>
+  <div class="resume-card">
+    <div class="resume-header">
+      <h1>Shravani Gurav</h1>
+      <p>Full Stack Developer</p>
+      <div class="contact-info">
+        <a href="mailto:gurashraani2221@gmail.com">📧 gurashraani2221@gmail.com</a>
+        <a href="tel:+919172516585">📞 +91 9172516585</a>
+        <a href="https://github.com/GuravShravani" target="_blank">🐙 GitHub</a>
+        <a href="https://linkedin.com/in/shravani-gurav-063783304" target="_blank">🔗 LinkedIn</a>
+      </div>
+    </div>
+    <div class="resume-body">
+      <div class="section">
+        <h2>Professional Summary</h2>
+        <p>Passionate Full-Stack Developer with experience in building modern web applications and 3D interactive experiences. Skilled in React, Node.js, Three.js, and modern web technologies.</p>
+      </div>
+      <div class="section">
+        <h2>Work Experience</h2>
+        <div class="job">
+          <div class="job-title">Jr. Full Stack Developer Intern</div>
+          <div class="company">SPCL Infotech PVT.LTD | Pune</div>
+          <div class="date">December 2025 - Present</div>
+          <ul><li>Leading live full stack project development with React and Node.js</li><li>Building reactive design systems with Three.js for 3D experiences</li><li>Optimizing application performance</li></ul>
         </div>
-      </body>
-      </html>
-    `;
+        <div class="job">
+          <div class="job-title">Android Developer</div>
+          <div class="company">Stormsoft Technology PVT.LTD | Ichalkaranji</div>
+          <div class="date">June 2024 - July 2024</div>
+          <ul><li>Developed real-time data applications with Android SDK</li><li>Managed database operations using SQLite</li></ul>
+        </div>
+        <div class="job">
+          <div class="job-title">Project Trainee</div>
+          <div class="company">ECS Software Technology PVT.LTD | Karad</div>
+          <div class="date">July 2022 - August 2022</div>
+          <ul><li>Built responsive websites using HTML, CSS, JavaScript, and React</li></ul>
+        </div>
+      </div>
+      <div class="section">
+        <h2>Technical Skills</h2>
+        <div class="skills-list">
+          <span class="skill-tag">Java</span><span class="skill-tag">Python</span>
+          <span class="skill-tag">JavaScript</span><span class="skill-tag">React</span>
+          <span class="skill-tag">Node.js</span><span class="skill-tag">Three.js</span>
+          <span class="skill-tag">MongoDB</span><span class="skill-tag">Git</span>
+        </div>
+      </div>
+      <div class="section">
+        <h2>Projects</h2>
+        <ul>
+          <li><strong>BillMe Online Payment Web</strong> - Real-time invoicing solution</li>
+          <li><strong>AI Disease Diagnosis</strong> - ML-based disease detection</li>
+          <li><strong>The Brand Hub</strong> - 3D interactive brand showcase</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+</html>`;
   }
   
-  // View Resume
   document.getElementById('viewResumeBtn').addEventListener('click', () => {
     const resumeHtml = generateResumeHTML();
     const newWindow = window.open();
@@ -1003,7 +1364,6 @@
     newWindow.document.close();
   });
   
-  // Download Resume as PDF
   document.getElementById('downloadResumeBtn').addEventListener('click', () => {
     const resumeHtml = generateResumeHTML();
     const blob = new Blob([resumeHtml], { type: 'text/html' });
@@ -1016,20 +1376,15 @@
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
     
-    // Show success message
     const btn = document.getElementById('downloadResumeBtn');
     const originalText = btn.innerHTML;
     btn.innerHTML = '<i class="fas fa-check"></i> Downloaded!';
-    setTimeout(() => {
-      btn.innerHTML = originalText;
-    }, 2000);
+    setTimeout(() => { btn.innerHTML = originalText; }, 2000);
   });
   
-  // ========== CONTACT FORM - WORKING ==========
-  
+  // Contact Form
   const contactForm = document.getElementById('contactForm');
   const formStatus = document.getElementById('formStatus');
-  const sendBtn = document.getElementById('sendMessageBtn');
   
   contactForm.addEventListener('submit', function(e) {
     e.preventDefault();
@@ -1039,28 +1394,21 @@
     const subject = document.getElementById('subject').value.trim();
     const message = document.getElementById('message').value.trim();
     
-    // Validation
     if (!name || !email || !subject || !message) {
       formStatus.className = 'form-message error';
       formStatus.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Please fill all fields!';
-      setTimeout(() => {
-        formStatus.className = 'form-message';
-      }, 3000);
+      setTimeout(() => { formStatus.className = 'form-message'; }, 3000);
       return;
     }
     
-    // Email validation
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
       formStatus.className = 'form-message error';
       formStatus.innerHTML = '<i class="fas fa-exclamation-triangle"></i> Please enter a valid email address!';
-      setTimeout(() => {
-        formStatus.className = 'form-message';
-      }, 3000);
+      setTimeout(() => { formStatus.className = 'form-message'; }, 3000);
       return;
     }
     
-    // Save to localStorage
     const messageData = {
       id: Date.now(),
       name: name,
@@ -1074,21 +1422,49 @@
     messages.push(messageData);
     localStorage.setItem('portfolioMessages', JSON.stringify(messages));
     
-    // Show success message
     formStatus.className = 'form-message success';
     formStatus.innerHTML = '<i class="fas fa-check-circle"></i> Message sent successfully! I will get back to you soon.';
     
-    // Reset form
     contactForm.reset();
     
-    // Clear success message after 5 seconds
-    setTimeout(() => {
-      formStatus.className = 'form-message';
-    }, 5000);
+    setTimeout(() => { formStatus.className = 'form-message'; }, 5000);
     
-    // Optional: Open email client as backup
-    const mailtoLink = `mailto:gurashraani2221@gmail.com?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\nMessage:\n${message}`)}`;
-    console.log('Message saved locally. You can also email directly:', mailtoLink);
+    console.log('Message saved:', messageData);
+  });
+  
+  // View Messages Modal
+  const modal = document.getElementById('messagesModal');
+  const viewBtn = document.getElementById('viewMessagesBtn');
+  const closeBtn = document.querySelector('.close-modal');
+  
+  viewBtn.addEventListener('click', () => {
+    const messages = JSON.parse(localStorage.getItem('portfolioMessages') || '[]');
+    const messagesList = document.getElementById('messagesList');
+    
+    if (messages.length === 0) {
+      messagesList.innerHTML = '<p style="color: #cbd5e1;">No messages yet. Submit a message to see it here!</p>';
+    } else {
+      messagesList.innerHTML = messages.map(msg => `
+        <div class="message-item">
+          <p><strong>From:</strong> ${msg.name} (${msg.email})</p>
+          <p><strong>Subject:</strong> ${msg.subject}</p>
+          <p><strong>Message:</strong> ${msg.message}</p>
+          <p><strong>Date:</strong> ${msg.date}</p>
+        </div>
+      `).join('');
+    }
+    
+    modal.style.display = 'flex';
+  });
+  
+  closeBtn.addEventListener('click', () => {
+    modal.style.display = 'none';
+  });
+  
+  window.addEventListener('click', (e) => {
+    if (e.target === modal) {
+      modal.style.display = 'none';
+    }
   });
   
   // Navigation
@@ -1101,9 +1477,7 @@
       e.preventDefault();
       const targetId = this.getAttribute('href').substring(1);
       const target = document.getElementById(targetId);
-      if(target) {
-        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
-      }
+      if(target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
   
@@ -1112,14 +1486,19 @@
     const mouseX = (event.clientX / window.innerWidth) * 2 - 1;
     const mouseY = (event.clientY / window.innerHeight) * 2 - 1;
     gsap.to(knot.rotation, { 
-      y: knot.rotation.y + mouseX * 0.03, 
-      x: knot.rotation.x + mouseY * 0.02, 
+      y: knot.rotation.y + mouseX * 0.05, 
+      x: knot.rotation.x + mouseY * 0.03, 
       duration: 1 
+    });
+    gsap.to(camera.position, { 
+      x: mouseX * 0.5, 
+      y: mouseY * 0.3, 
+      duration: 1.2 
     });
   });
   
-  console.log('Portfolio loaded successfully!');
-  console.log('Messages saved in localStorage. Check "portfolioMessages" key.');
+  console.log('✅ Portfolio loaded with enhanced 3D background!');
+  console.log('🚀 Rocket, Moon, Shiny Stars, and Floating Shapes added!');
 </script>
 </body>
 </html>
